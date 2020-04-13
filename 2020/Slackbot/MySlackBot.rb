@@ -8,7 +8,6 @@ class MySlackBot < SlackBot
 end
 
 slackbot = MySlackBot.new
-
 set :environment, :production
 
 get '/' do
@@ -18,4 +17,5 @@ end
 post '/slack' do
   content_type :json
   slackbot.naive_respond(params, username: "Bot")
+# slackbot.post_message("Hello.",username:"matsuda-bot")
 end
