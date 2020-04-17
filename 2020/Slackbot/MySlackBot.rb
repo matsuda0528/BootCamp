@@ -2,20 +2,25 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 
 require 'sinatra'
 require 'SlackBot'
+require 'API'
 
 class MySlackBot < SlackBot
-  # cool code goes here
 end
 
 slackbot = MySlackBot.new
 set :environment, :production
-
+set :port, 443
 get '/' do
   "SlackBot Server"
 end
 
 post '/slack' do
   content_type :json
-  slackbot.naive_respond(params, username: "Bot")
-# slackbot.post_message("Hello.",username:"matsuda-bot")
+  text = params[:text].split("@matsudabot ")[1]
+  
+  if text.include?("天気")
+    msg = Weather.forecast(text.split("の")[0])
+    msg = "#{text.split("の")[0]}は観測地点に登録されていません．" if msg == nil
+    slackbot.post_message(msg,username:"matsudabot")
+  end
 end

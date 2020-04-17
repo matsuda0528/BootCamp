@@ -33,3 +33,4 @@ class SlackBot
     return {text: "#{user_name} Hi!"}.merge(options).to_json
   end
 end
+
