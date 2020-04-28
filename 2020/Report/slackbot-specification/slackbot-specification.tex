@@ -1,0 +1,95 @@
+\documentclass[12pt]{jsarticle}
+\usepackage[dvipdfmx]{graphicx}
+\textheight = 25truecm
+\textwidth = 18truecm
+\topmargin = -1.5truecm
+\oddsidemargin = -1truecm
+\evensidemargin = -1truecm
+\marginparwidth = -1truecm
+
+\def\theenumii{\Alph{enumii}}
+\def\theenumiii{\alph{enumiii}}
+\def\labelenumi{(\theenumi)}
+\def\labelenumiii{(\theenumiii)}
+\def\theenumiv{\roman{enumiv}}
+\def\labelenumiv{(\theenumiv)}
+\usepackage{comment}
+\usepackage{url}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% sty/ にある研究室独自のスタイルファイル
+\usepackage{jtygm}  % フォントに関する余計な警告を消す
+\usepackage{nutils} % insertfigure, figref, tabref マクロ
+
+\def\figdir{./figs} % 図のディレクトリ
+\def\figext{pdf}    % 図のファイルの拡張子
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 表題
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}
+{\LARGE SlackBotプログラムの仕様書}
+\end{center}
+
+\begin{flushright}
+  2020/4/28\\
+  松田 陸斗
+\end{flushright}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 概要
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{はじめに}
+\label{sec:introduction}
+本資料は打ち合わせ資料のテンプレートを示した資料である．
+本資料を作成するにあたって，学士卒業論文テンプレートを参考にした．
+はじめにでは，本資料の概要や背景を説明する．
+2章に箇条書きの例，図の挿入の例，表の例，および参考文献の例について記載している．
+
+\section{概要}
+本研修で作成したSlackBotは，Slackで"@matsudabot"から始まるチャットに反応し，続く文字列によって実装した機能を呼び出すものである．
+本研修で作成したSlackBotは以下の機能を持つ．
+\begin{enumerate}
+\item 天気を取得し，表示する機能
+\item ニュースを取得し，表示する機能
+\item クイズを出題する機能
+\end{enumerate}
+
+
+\section{機能}
+\subsection{天気API}
+天気を取得するために，Weather HacksというAPIを利用した．
+Weather HacksはURLのパラメータに地域別に定義されたIDを指定する．
+例に，久留米の天気を取得するURLを以下に示す．
+\begin{verbatim}
+http://weather.livedoor.com/forecast/webservice/json/v1?city=400040
+\end{verbatim]}
+実装では，地域名とIDの対応表を作成し，地域名を入力から受け取ることができる仕様にしている．
+\subsection{ニュースAPI}
+ニュースを取得するために，NewsAPIを利用した．
+NewsAPIで提供されているAPIには，トップニュースを取得するためのAPIと，すべてのニュースを取得するAPIの二種類がある．
+実装では，検索ワードを指定した場合には，すべてのニュースから検索し，検索ワードの指定がない場合には，トップニュースからニュースを取得している．
+また，表示するニュースの件数を指定することができる．
+
+\subsection{クイズAPI}
+クイズを取得するために，OPEN TRIVIA DATABASEというAPIを利用した．
+OPEN TRIVIA DATABASEはデータベースからクイズをランダムに取得できるAPIである．
+
+\section{動作環境}
+\section{動作確認済み環境}
+\section{使用方法}
+\section{エラー処理と保証しない動作}
+保証しない動作を以下に示す．
+\begin{enumerate}
+\item ニュースの検索ワードに"件"が入っている場合．
+\end{enumerate}
+\section{おわりに}
+\label{sec:conclusion}
+本資料では打ち合わせ資料のテンプレートを示した．
+また，図表の挿入例や参考文献の例を挙げた．
+今後は，このテンプレートを基に資料を作成する．
+
+\bibliographystyle{ipsjunsrt}
+\bibliography{mybibdata}
+
+\end{document}

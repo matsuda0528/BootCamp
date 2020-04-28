@@ -1,0 +1,79 @@
+\documentclass[12pt]{jsarticle}
+\usepackage[dvipdfmx]{graphicx}
+\textheight = 25truecm
+\textwidth = 18truecm
+\topmargin = -1.5truecm
+\oddsidemargin = -1truecm
+\evensidemargin = -1truecm
+\marginparwidth = -1truecm
+
+\def\theenumii{\Alph{enumii}}
+\def\theenumiii{\alph{enumiii}}
+\def\labelenumi{(\theenumi)}
+\def\labelenumiii{(\theenumiii)}
+\def\theenumiv{\roman{enumiv}}
+\def\labelenumiv{(\theenumiv)}
+\usepackage{comment}
+\usepackage{url}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% sty/ にある研究室独自のスタイルファイル
+\usepackage{jtygm}  % フォントに関する余計な警告を消す
+\usepackage{nutils} % insertfigure, figref, tabref マクロ
+
+\def\figdir{./figs} % 図のディレクトリ
+\def\figext{pdf}    % 図のファイルの拡張子
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 表題
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}
+{\LARGE SlackBotプログラムの報告書}
+\end{center}
+
+\begin{flushright}
+  2018/4/28\\
+  松田 陸斗
+\end{flushright}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 概要
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{はじめに}
+\label{sec:introduction}
+本資料は，B4新人研修のRubyによるSlackBotプログラムの作成の報告書である．
+本資料では，SlackBotプログラムの作成に関して，理解できなかった部分，作成できなかった機能，自主的に作成した機能を述べる．
+
+\section{理解できなかった部分}
+\begin{enumerate}
+\item 	localからSlack.comにポストリクエストを送るとエラーが出る\\
+\end{enumerate}
+
+\section{作成できなかった機能}
+\begin{enumerate}
+\item 認証を必要とするAPIの利用\\
+OAuth認証の設定がよくわからなかった．
+\item 時報機能\\
+herokuの無料プランのサーバでは，30分アクセスがないとシャットダウンしてしまうため，cronなどが使えない．
+\end{enumerate}
+
+\section{自主的に作成した機能}
+\begin{enumerate}
+\item 天気を取得する機能\\
+任意の場所の天気を取得する．場所の名前には，予め登録されてある名前を指定する必要がある．トリガーとなる言葉は"<場所>の天気"である．
+\item ニュースを取得する機能\\
+最新のニュースを任意数取得する．検索したい言葉をダブルクォーテーションで囲むと，この言葉に関するニュースを取得する．トリガーとなる言葉は，"ニュース"である．
+\item クイズを出題する機能\\
+コンピュータに関するクイズをランダムに出題する．トリガーとなる言葉は"クイズ"である．
+\end{enumerate}
+
+\section{おわりに}
+\label{sec:conclusion}
+本資料では打ち合わせ資料のテンプレートを示した．
+また，図表の挿入例や参考文献の例を挙げた．
+今後は，このテンプレートを基に資料を作成する．
+
+\bibliographystyle{ipsjunsrt}
+\bibliography{mybibdata}
+
+\end{document}
