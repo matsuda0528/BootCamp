@@ -57,31 +57,93 @@
 
 
 \section{機能}
-\subsection{天気API}
+\subsection{天気機能}
 天気を取得するために，Weather HacksというAPIを利用した．
 Weather HacksはURLのパラメータに地域別に定義されたIDを指定する．
 例に，久留米の天気を取得するURLを以下に示す．
 \begin{verbatim}
 http://weather.livedoor.com/forecast/webservice/json/v1?city=400040
-\end{verbatim]}
+\end{verbatim}
 実装では，地域名とIDの対応表を作成し，地域名を入力から受け取ることができる仕様にしている．
-\subsection{ニュースAPI}
+\subsection{ニュース機能}
 ニュースを取得するために，NewsAPIを利用した．
 NewsAPIで提供されているAPIには，トップニュースを取得するためのAPIと，すべてのニュースを取得するAPIの二種類がある．
 実装では，検索ワードを指定した場合には，すべてのニュースから検索し，検索ワードの指定がない場合には，トップニュースからニュースを取得している．
 また，表示するニュースの件数を指定することができる．
 
-\subsection{クイズAPI}
+\subsection{クイズ機能}
 クイズを取得するために，OPEN TRIVIA DATABASEというAPIを利用した．
 OPEN TRIVIA DATABASEはデータベースからクイズをランダムに取得できるAPIである．
 
 \section{動作環境}
+\begin{table}[h]
+\begin{center}
+\caption{動作環境}\label{tab:2}
+\ecaption{Operationg environment.}
+\begin{tabular}{l|l}
+\hline\hline
+\multicolumn{1}{l|}{項目} & \multicolumn{1}{l}{内容}\\
+\hline
+OS & Debian 10\\
+CPU & Intel(R) Core(TM) m3-6Y30 CPU @ 0.90GHz 1.51GHz\\
+メモリ & 512MB\\
+Ruby & ruby 2.5.5p157\\
+Ruby Gem & bundler 2.1.4\\
+& termann 1.0.2\\
+& rack 2.0.4\\
+& rack-protection 2.0.1\\
+& sinatra 2.0.1\\ 
+& tilt 2.0.8\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
 \section{動作確認済み環境}
 \section{使用方法}
+
+\subsection{天気機能}
+天気を取得するための最も簡素なメッセージは以下である．
+\begin{center}
+@matsudabot <地域名>の天気\\
+\end{center}
+"<地域名>の天気"の後に文字があっても正常に呼び出される．
+実際に想定されるメッセージの例を以下に示す．
+\begin{center}
+@matsudabot 岡山の天気は?\\
+@matsudabot 神戸の天気を教えて\\
+\end{center}
+ただし，"<地域名>の天気"の前に文字を入れてはならない．
+\subsection{ニュース機能}
+ニュースを取得する機能は以下の2つに分けられる．
+\begin{enumerate}
+\item トップニュースからニュースを取得する機能．
+\item すべてのニュースから検索ワードを含むニュースを取得する機能．
+\end{enumerate}
+\subsubsection{トップニュースから取得}
+検索ワードを指定しない場合，トップニュースからニュースを取得する．
+ニュースを取得するための最も簡素なメッセージは以下である．
+\begin{center}
+@matsudabot ニュース
+\end{center}
+\subsubsection{検索ワードを含むニュースを取得}
+検索ワードはダブルクォーテーションでしていする．
+検索ワードを含むニュースを取得する最も簡素なメッセージは以下である．
+\begin{center}
+@matsudabot "<検索ワード>"ニュース
+\end{center}
+\subsection{クイズ機能}
+クイズを取得するための最も簡素なメッセージは以下である．
+\begin{center}
+@matsudabot クイズ
+\end{center}
+
 \section{エラー処理と保証しない動作}
 保証しない動作を以下に示す．
 \begin{enumerate}
-\item ニュースの検索ワードに"件"が入っている場合．
+\item ニュースの検索ワードに"件"が入っている場合．\\
+\item ニュースの検索ワードに数字が入っていて，表示件数をしていする場合．\\
+\item クイズの回答に30分以上かかる場合．\\
 \end{enumerate}
 \section{おわりに}
 \label{sec:conclusion}

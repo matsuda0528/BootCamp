@@ -33,7 +33,7 @@
 \end{center}
 
 \begin{flushright}
-  2018/4/28\\
+  2020/4/28\\
   松田 陸斗
 \end{flushright}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -44,6 +44,15 @@
 本資料は，B4新人研修のRubyによるSlackBotプログラムの作成の報告書である．
 本資料では，SlackBotプログラムの作成に関して，理解できなかった部分，作成できなかった機能，自主的に作成した機能を述べる．
 
+\section{課題内容}
+以下の2つの機能をもつSlackBotプログラムをRubyで作成する．
+\begin{enumerate}
+\item 任意の文字列を発言するプログラムの作成\\
+受信した発言の中に"「hello」と言って"という文字列があった場合は，"hello"と発言する
+\item SlackBotプログラムへの機能追加\\
+Slack以外のWebサービスのAPIやWebhookを利用した機能を追加する．
+\end{enumerate}
+
 \section{理解できなかった部分}
 \begin{enumerate}
 \item 	localからSlack.comにポストリクエストを送るとエラーが出る\\
@@ -51,10 +60,8 @@
 
 \section{作成できなかった機能}
 \begin{enumerate}
-\item 認証を必要とするAPIの利用\\
+\item Googleが提供するAPIのOAuth認証\\
 OAuth認証の設定がよくわからなかった．
-\item 時報機能\\
-herokuの無料プランのサーバでは，30分アクセスがないとシャットダウンしてしまうため，cronなどが使えない．
 \end{enumerate}
 
 \section{自主的に作成した機能}
@@ -66,12 +73,6 @@ herokuの無料プランのサーバでは，30分アクセスがないとシャ
 \item クイズを出題する機能\\
 コンピュータに関するクイズをランダムに出題する．トリガーとなる言葉は"クイズ"である．
 \end{enumerate}
-
-\section{おわりに}
-\label{sec:conclusion}
-本資料では打ち合わせ資料のテンプレートを示した．
-また，図表の挿入例や参考文献の例を挙げた．
-今後は，このテンプレートを基に資料を作成する．
 
 \bibliographystyle{ipsjunsrt}
 \bibliography{mybibdata}

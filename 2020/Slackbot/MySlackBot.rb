@@ -3,8 +3,10 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 
 require 'sinatra'
 require 'SlackBot'
-require 'API'
 require 'OpenClass' 
+require 'modules/weather'
+require 'modules/news'
+require 'modules/quiz'
 
 class MySlackBot < SlackBot
   def initialize
@@ -56,7 +58,6 @@ post '/slack' do
     else
       msg = NewsAPI.get(number)
     end
-    p msg
     slackbot.post_message(msg,username:"matsudabot")
   end
 
