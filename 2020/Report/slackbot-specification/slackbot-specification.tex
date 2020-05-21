@@ -41,10 +41,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{はじめに}
 \label{sec:introduction}
-本資料は打ち合わせ資料のテンプレートを示した資料である．
-本資料を作成するにあたって，学士卒業論文テンプレートを参考にした．
-はじめにでは，本資料の概要や背景を説明する．
-2章に箇条書きの例，図の挿入の例，表の例，および参考文献の例について記載している．
+本資料は2020年度新人研修課題にて作成したSlackBotプログラムの仕様についてまとめたものである．
+本プログラムで使用するSlackとは，Web上で利用できるチームコミュニケーションツールである．
 
 \section{概要}
 本研修で作成したSlackBotは，Slackで"@matsudabot"から始まるチャットに反応し，続く文字列によって実装した機能を呼び出すものである．
@@ -76,6 +74,7 @@ NewsAPIで提供されているAPIには，トップニュースを取得する�
 OPEN TRIVIA DATABASEはデータベースからクイズをランダムに取得できるAPIである．
 
 \section{動作環境}
+本プログラムは，Heroku上で動作させることを想定している．
 \begin{table}[h]
 \begin{center}
 \caption{動作環境}\label{tab:2}
@@ -99,21 +98,27 @@ Ruby Gem & bundler 2.1.4\\
 \end{center}
 \end{table}
 
-\section{動作確認済み環境}
+本プログラムの動作環境を表\ref{tab:2}に示す．
+なお，本プログラムは表\ref{tab:2}の環境で動作確認済みである．
 \section{使用方法}
+本プログラムはHeroku上で動作するため，Herokuへデプロイすることで実行できる．
+Herokuには以下のコマンドを実行してデプロイできる．
+\begin{verbatim}
+$ git push heroku master
+\end{verbatim}
 
 \subsection{天気機能}
 天気を取得するための最も簡素なメッセージは以下である．
 \begin{center}
-@matsudabot <地域名>の天気\\
+	@matsudabot (地域名)の天気\\
 \end{center}
-"<地域名>の天気"の後に文字があっても正常に呼び出される．
+"(地域名)の天気"の後に文字があっても正常に呼び出される．
 実際に想定されるメッセージの例を以下に示す．
 \begin{center}
 @matsudabot 岡山の天気は?\\
 @matsudabot 神戸の天気を教えて\\
 \end{center}
-ただし，"<地域名>の天気"の前に文字を入れてはならない．
+ただし，"(地域名)の天気"の前に文字を入れてはならない．
 \subsection{ニュース機能}
 ニュースを取得する機能は以下の2つに分けられる．
 \begin{enumerate}
@@ -130,7 +135,7 @@ Ruby Gem & bundler 2.1.4\\
 検索ワードはダブルクォーテーションでしていする．
 検索ワードを含むニュースを取得する最も簡素なメッセージは以下である．
 \begin{center}
-@matsudabot "<検索ワード>"ニュース
+	@matsudabot "(検索ワード)"ニュース
 \end{center}
 \subsection{クイズ機能}
 クイズを取得するための最も簡素なメッセージは以下である．
@@ -145,11 +150,6 @@ Ruby Gem & bundler 2.1.4\\
 \item ニュースの検索ワードに数字が入っていて，表示件数をしていする場合．\\
 \item クイズの回答に30分以上かかる場合．\\
 \end{enumerate}
-\section{おわりに}
-\label{sec:conclusion}
-本資料では打ち合わせ資料のテンプレートを示した．
-また，図表の挿入例や参考文献の例を挙げた．
-今後は，このテンプレートを基に資料を作成する．
 
 \bibliographystyle{ipsjunsrt}
 \bibliography{mybibdata}
