@@ -1,0 +1,178 @@
+\documentclass[12pt]{jsarticle}
+\usepackage[dvipdfmx]{graphicx}
+\textheight = 25truecm
+\textwidth = 18truecm
+\topmargin = -1.5truecm
+\oddsidemargin = -1truecm
+\evensidemargin = -1truecm
+\marginparwidth = -1truecm
+
+\def\theenumii{\Alph{enumii}}
+\def\theenumiii{\alph{enumiii}}
+\def\labelenumi{(\theenumi)}
+\def\labelenumiii{(\theenumiii)}
+\def\theenumiv{\roman{enumiv}}
+\def\labelenumiv{(\theenumiv)}
+\usepackage{comment}
+\usepackage{url}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% sty/ にある研究室独自のスタイルファイル
+\usepackage{jtygm}  % フォントに関する余計な警告を消す
+\usepackage{nutils} % insertfigure, figref, tabref マクロ
+
+\def\figdir{./figs} % 図のディレクトリ
+\def\figext{pdf}    % 図のファイルの拡張子
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 表題
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}
+{\LARGE システムコール追加の手順書}
+\end{center}
+
+\begin{flushright}
+  2020/5/27\\
+  松田 陸斗
+\end{flushright}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 概要
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{はじめに}
+\label{sec:introduction}
+本手順書では，Linuxカーネルへシステムコールを追加する手順を記す．
+
+\section{追加環境}
+システムコールを追加する環境を表\ref{env}に示す．
+
+\begin{table}[h]
+\begin{center}
+	\caption{実行環境}\label{env}
+	\begin{tabular}{l|l}
+	\hline\hline
+	\multicolumn{1}{l|}{項目名} & \multicolumn{1}{l}{環境}\\
+	\hline
+	OS & \\
+	カーネル & \\
+	CPU & \\
+	メモリ & \\
+	\hline
+	\end{tabular}
+\end{center}
+\end{table}
+\section{追加したシステムコール}
+本実験では，カーネルのメッセージバッファに任意の文字列を出力するシステムコールを追加した．
+\subsection{形式}
+\subsection{引数}
+\subsection{戻り値}
+\subsection{機能}
+\section{システムコールの追加の手順}
+\subsection{カーネルの再構築}
+\subsubsection{.configファイルの生成}
+.configファイルを以下のコマンドで生成する．
+\begin{verbatim}
+make defconfig
+\end{verbatim}
+.configファイルとは，カーネルの設定を記述したコンフィギュレーションファイルである．
+実行後，/home/user/git/linux-stable以下に.configファイルが生成される．
+
+\subsubsection{カーネルのコンパイル}
+Linuxカーネルを以下のコマンドでコンパイルする．
+\begin{verbatim}
+make bzImage -j8
+\end{verbatim}
+上記コマンドの$-j$オプションは，同時に実行できるジョブ数を指定する．
+ジョブ数を不用意に増やすと，メモリ不足により実行速度が低下する場合がある．
+ジョブ数はCPUのコア数*2が効果的である．
+コマンド実行後，/home/matsuda-ri/git/linux-stable/arch/x86/boot以下にbzImageという名前の圧縮カーネルイメージが作成される．
+カーネルイメージとは，実行可能形式のカーネルを含むファイルである．
+同時に，/home/matsuda-ri/git/linux-stable以下にすべてのカーネルシンボルのアドレスを記述したSystem.mapが作成される．
+カーネルシンボルとは，カーネルのプログラムが格納されたメモリアドレスと対応付けられた文字列のことである．
+
+\subsubsection{カーネルのインストール}
+コンパイルしたカーネルを以下のコマンドでインストールする．
+\begin{verbatim}
+$ sudo cp arch/x86/boot/bzImage /boot/vmlinuz-4.19.0-linux
+$ sudo cp System.map /boot/System.map-4.19.0-linux
+\end{verbatim}
+実行後，bzImageとSystem.mapが，/boot以下にそれぞれvmlinuz-3.16.0-linuxとSystem.map-3.16.0-linuxという名前でコピーされる．
+
+\subsubsection{カーネルモジュールのコンパイル}
+カーネルモジュールを以下のコマンドでコンパイルする．
+\begin{verbatim}
+$ make modules
+\end{verbatim}
+カーネルモジュールとは，機能を拡張するためのバイナリファイルである．
+
+\subsubsection{カーネルモジュールのインストール}
+コンパイルしたカーネルモジュールを以下のコマンドでインストールする．
+\begin{verbatim}
+$ sudo make modules_install
+\end{verbatim}
+実行結果の最後の行は以下のように表示される．
+\begin{verbatim}
+DEPMOD 4.19.0
+\end{verbatim}
+これは，カーネルモジュールをインストールしたディレクトリ名を表示している．
+
+\subsubsection{初期RAMディスクの作成}
+初期RAMディスクとは，初期ルートファイルシステムのことである．
+これは，実際のルートファイルシステムが使用できるようになる前にマウントされる．
+以下のコマンドを実行する．
+\begin{verbatim}
+$ sudo update-initramfs -c -k 4.19.0
+\end{verbatim}
+
+\subsubsection{ブートローダの設定}
+システムコールを実装したカーネルをブートローダから起動可能にするために，ブートローダを設定する．
+ブートローダの設定ファイルは/boot/grub/grub.cfgである．
+エントリを追加するためには，このファイルを編集する必要がある．
+Debian10で使用されているブートローダはGRUB2である．
+GRUB2でカーネルのエントリを追加する際，設定ファイルを直接編集しない．
+/etc/grub.d以下にエントリ追加用のスクリプトを作成し，そのスクリプトを実行することでエントリを追加する．
+ブートローダを設定する手順を以下に示す．
+\begin{enumerate}
+\item エントリ追加用のスクリプトの作成\\
+	カーネルのエントリを追加するため，エントリ追加用のスクリプトを作成する．
+	本手順では，既存のファイル名に倣い作成するスクリプトのファイル名は11\_linux-4.19.0とする．スクリプトの記述例を以下に示す．
+	\begin{verbatim}
+	1 #!/bin/sh -e
+	2 echo "Adding my custom Linux to GRUB2"
+	3 cat << EOF
+	4 menuentry "My custom Linux" {
+	5 set root=(hd0,1)
+	6 linux /vmlinuz-4.19.0-linux ro root=/dev/sda3 quiet
+	7 initrd /initrd.img-4.19.0
+	8 }
+	9 EOF
+	\end{verbatim}
+
+\item 実行権限の付与\\
+	/etc/grub.dで以下のコマンドを実行し，作成したスクリプトに実行権限を付与する．
+	\begin{verbatim}
+	$ sudo chmod +x 11_linux-4.19.0
+	\end{verbatim}
+	
+\item エントリ追加用のスクリプトの実行\\
+	以下のコマンドを実行し，作成したスクリプトを実行する．
+	\begin{verbatim}
+	$ sudo update-grub
+	\end{verbatim}
+	実行後，/boot/grub/grub.cfgにシステムコールを実装したカーネルのエントリが追加される．
+
+\end{enumerate}
+\subsubsection{再起動}
+任意のディレクトリで以下のコマンドを実行し，計算機を再起動させる．
+\begin{verbatim}
+$ sudo reboot
+\end{verbatim}
+GRUB2のカーネル選択画面にエントリが追加されている．カーネル選択画面でMy custom Linuxを選択し，起動する．
+
+\section{テスト}
+\subsection{概要}
+\subsection{テストプログラムの作成}
+\subsection{テストプログラムの実行}
+\subsection{カーネルバッファの内容を確認}
+
+\end{document}
