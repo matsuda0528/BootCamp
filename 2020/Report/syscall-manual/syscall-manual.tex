@@ -63,11 +63,14 @@
 \end{table}
 \section{追加したシステムコール}
 本実験では，カーネルのメッセージバッファに任意の文字列を出力するシステムコールを追加した．
-\subsection{形式}
-\subsection{引数}
-\subsection{戻り値}
-\subsection{機能}
+\begin{description}
+	\item[形式] \verb|asmlinkage void sys_my_syscall(char *msg)|
+	\item[引数] \verb|char *msg| : 任意の文字列
+	\item[戻り値] なし
+	\item[機能] カーネルのメッセージバッファに任意の文字列を出力する
+\end{description}
 \section{システムコールの追加の手順}
+
 \subsection{カーネルの再構築}
 \subsubsection{.configファイルの生成}
 .configファイルを以下のコマンドで生成する．
@@ -171,8 +174,26 @@ GRUB2のカーネル選択画面にエントリが追加されている．カー
 
 \section{テスト}
 \subsection{概要}
-\subsection{テストプログラムの作成}
-\subsection{テストプログラムの実行}
-\subsection{カーネルバッファの内容を確認}
+本手順書で追加したシステムコールが正常に動作しているかを確認するためにテストを行う．
 
+\subsection{テストプログラムの作成}
+追加したシステムコールを呼び出すテストプログラムを作成する．
+テストプログラムの処理の流れは以下の通りである．
+\begin{enumerate}
+\item 標準入力から文字列を受け取る
+\item 受け取った文字列を引数として，追加したシステムコールを呼び出す 
+\end{enumerate}
+\subsection{テストプログラムの実行}
+テストプログラムをコンパイルし実行する．
+
+\subsection{カーネルバッファの内容を確認}
+以下のコマンドでカーネルのメッセージバッファを確認する．
+\begin{verbatim}
+$ dmesg
+\end{verbatim}
+実行結果として以下の結果が得られる．
+\begin{verbatim}
+研究室で確認
+\end{verbatim}
+この結果より，カーネルバッファに任意の文字列を出力するシステムコールが作成できたとこがわかる．
 \end{document}
