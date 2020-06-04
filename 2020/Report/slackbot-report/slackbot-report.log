@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.14159265-p3.8.1-180901-2.6 (utf8.euc) (TeX Live 2019/dev/Debian) (preloaded format=platex 2020.4.14)  26 MAY 2020 06:42
+This is e-pTeX, Version 3.14159265-p3.8.1-180901-2.6 (utf8.euc) (TeX Live 2019/dev/Debian) (preloaded format=platex 2020.4.14)  4 JUN 2020 04:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -119,6 +119,14 @@ LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
 (Font)              scaled to size 13.83836pt on input line 42.
 LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
 (Font)              scaled to size 13.83836pt on input line 42.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 74.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 74.
+LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
+(Font)              scaled to size 6.72699pt on input line 74.
+LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
+(Font)              scaled to size 4.805pt on input line 74.
  [1
 
 ] (./slackbot-report.bbl
@@ -127,12 +135,12 @@ LaTeX Warning: Empty `thebibliography' environment on input line 3.
 
 ) [2] (./slackbot-report.aux) ) 
 Here is how much of TeX's memory you used:
- 941 strings out of 494319
- 11163 string characters out of 6171545
- 75247 words of memory out of 5000000
- 4870 multiletter control sequences out of 15000+600000
- 10119 words of font info for 45 fonts, out of 8000000 for 9000
+ 943 strings out of 494319
+ 11191 string characters out of 6171545
+ 76247 words of memory out of 5000000
+ 4872 multiletter control sequences out of 15000+600000
+ 10303 words of font info for 47 fonts, out of 8000000 for 9000
  269 hyphenation exceptions out of 8191
- 25i,4n,21p,214b,233s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 25i,4n,21p,214b,235s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on slackbot-report.dvi (2 pages, 3400 bytes).
+Output written on slackbot-report.dvi (2 pages, 3684 bytes).

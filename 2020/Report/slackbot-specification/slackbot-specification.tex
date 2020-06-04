@@ -45,33 +45,86 @@
 本プログラムで使用するSlackとは，Web上で利用できるチームコミュニケーションツールである．
 
 \section{概要}
-本研修で作成したSlackBotは，Slackで"@matsudabot"から始まるチャットに反応し，続く文字列によって実装した機能を呼び出すものである．
+本研修で作成したSlackBotは，Slackで''@matsudabot''から始まる発言を受け取り，それに続く文字列によって実装した機能を呼び出すものである．
 本研修で作成したSlackBotは以下の機能を持つ．
 \begin{enumerate}
+\item 指定された文字列を発言する機能
 \item 天気を取得し，表示する機能
 \item ニュースを取得し，表示する機能
 \item クイズを出題する機能
 \end{enumerate}
+なお，本資料において発言とはSlackにおいて文字列を投稿することを指す．
+また，本資料において発言内容は''''で囲って表す．
 
 
 \section{機能}
-\subsection{天気機能}
-天気を取得するために，Weather HacksというAPIを利用した．
+\begin{description}
+\item[(機能1)] 指定された文字列を発言する機能\\
+この機能はユーザの''@matsudabot (任意の文字列)と言って''という発言に対して，(任意の文字列)を発言する．
+例えば，''@matsudabot こんにちはと言って''という発言に対しては''こんにちは''と発言する．
+
+\item[(機能2)] 天気を取得し，表示する機能\\
+この機能はユーザの''@matsudabot (定義された場所)の天気''という発言に対して，(定義された場所)の今日の天気，明日の天気，詳細な気候情報を表示する．
+例として，ユーザの''@matsudabot 岡山の天気''という発言に対するSlackBotの発言を以下に示す．
+\begin{verbatim}
+今日の岡山県 岡山 の天気
+晴れ
+明日の岡山県 岡山 の天気
+晴のち曇
+---
+岡山県は、高気圧に覆われて晴れています。
+29日は、高気圧に覆われて晴れるでしょう。
+30日は、引き続き高気圧に覆われて概ね晴れる見込みです。
+2020-05-29T10:30:00 0900
+\end{verbatim}
+また，天気を取得するために，Weather HacksというAPIを利用した．
 Weather HacksはURLのパラメータに地域別に定義されたIDを指定する．
 例に，久留米の天気を取得するURLを以下に示す．
 \begin{verbatim}
 http://weather.livedoor.com/forecast/webservice/json/v1?city=400040
 \end{verbatim}
 実装では，地域名とIDの対応表を作成し，地域名を入力から受け取ることができる仕様にしている．
-\subsection{ニュース機能}
+
+\item[(機能3)] ニュース機能\\
+この機能は，ユーザの''@matsudabot ニュース''という発言に対して，トップニュースを表示する．
+また，''@matsudabot ''(検索ワード)''に関するニュース''という発言に対しては，(検索ワード)を含むニュースを表示する．
+例として，ユーザが''@matsudabot ニュース''と発言したときのSlackBotの発言を以下に示す．
+\begin{verbatim}
+タイトル :
+北九州市長「第2波の真っただ中にいる」 新型コロナウイルス - NHK NEWS WEB
+詳細 :
+北九州市の北橋市長は、市内で新型コロナウイルスの感染確認が急増している状況について「第2波の真っただ中にいると認識してい
+URL :
+https://www3.nhk.or.jp/news/html/20200529/k10012450051000.html
+---
+\end{verbatim}
 ニュースを取得するために，NewsAPIを利用した．
 NewsAPIで提供されているAPIには，トップニュースを取得するためのAPIと，すべてのニュースを取得するAPIの二種類がある．
 実装では，検索ワードを指定した場合には，すべてのニュースから検索し，検索ワードの指定がない場合には，トップニュースからニュースを取得している．
 また，表示するニュースの件数を指定することができる．
 
-\subsection{クイズ機能}
+\item[(機能4)] クイズ機能\\
+この機能は，ユーザの''@matsudabot クイズ''という発言に対して，ランダムにクイズを表示する．
+例として，ユーザが''@matsudabot クイズ''と発言したときのSlackBotの発言を以下に示す．
+\begin{verbatim}
+Question :
+Which RAID array type is associated with data mirroring?
+Choise:
+["RAID 0", "RAID 1", "RAID 10", "RAID 5"]
+\end{verbatim}
+ユーザが''@matsudabot クイズ''と発言した場合，次のユーザの発言をSlackBotはクイズの解答として受け取る．
+クイズに正答した場合のSlackBotの発言を以下に示す．
+\begin{verbatim}
+Is the correct answer.
+\end{verbatim}
+また，クイズに誤答した場合のSlackBotの発言を以下に示す．
+\begin{verbatim}
+Incorrect.
+correct answer is RAID 1.
+\end{verbatim}
 クイズを取得するために，OPEN TRIVIA DATABASEというAPIを利用した．
 OPEN TRIVIA DATABASEはデータベースからクイズをランダムに取得できるAPIである．
+\end{description}
 
 \section{動作環境}
 本プログラムは，Heroku上で動作させることを想定している．
@@ -108,17 +161,17 @@ $ git push heroku master
 \end{verbatim}
 
 \subsection{天気機能}
-天気を取得するための最も簡素なメッセージは以下である．
-\begin{center}
-	@matsudabot (地域名)の天気\\
-\end{center}
-"(地域名)の天気"の後に文字があっても正常に呼び出される．
+天気を取得するための最も簡素なユーザの発言を以下に示す．
+\begin{verbatim}
+	@matsudabot (定義された場所)の天気
+\end{verbatim}
+''@matsudabot (定義された場所)の天気''の後に文字があっても正常に呼び出される．
 実際に想定されるメッセージの例を以下に示す．
-\begin{center}
-@matsudabot 岡山の天気は?\\
-@matsudabot 神戸の天気を教えて\\
-\end{center}
-ただし，"(地域名)の天気"の前に文字を入れてはならない．
+\begin{verbatim}
+@matsudabot 岡山の天気は?
+@matsudabot 神戸の天気を教えて
+\end{verbatim}
+
 \subsection{ニュース機能}
 ニュースを取得する機能は以下の2つに分けられる．
 \begin{enumerate}
@@ -127,27 +180,27 @@ $ git push heroku master
 \end{enumerate}
 \subsubsection{トップニュースから取得}
 検索ワードを指定しない場合，トップニュースからニュースを取得する．
-ニュースを取得するための最も簡素なメッセージは以下である．
-\begin{center}
+ニュースを取得するための最も簡素なユーザの発言を以下に示す．
+\begin{verbatim}
 @matsudabot ニュース
-\end{center}
+\end{verbatim}
 \subsubsection{検索ワードを含むニュースを取得}
-検索ワードはダブルクォーテーションでしていする．
-検索ワードを含むニュースを取得する最も簡素なメッセージは以下である．
-\begin{center}
+検索ワードはダブルクォーテーションで指定する．
+検索ワードを含むニュースを取得する最も簡素なユーザの発言を以下に示す．
+\begin{verbatim}
 	@matsudabot "(検索ワード)"ニュース
-\end{center}
+\end{verbatim}
 \subsection{クイズ機能}
-クイズを取得するための最も簡素なメッセージは以下である．
-\begin{center}
+クイズを取得するための最も簡素なユーザの発言を以下に示す．
+\begin{verbatim}
 @matsudabot クイズ
-\end{center}
+\end{verbatim}
 
 \section{エラー処理と保証しない動作}
 保証しない動作を以下に示す．
 \begin{enumerate}
-\item ニュースの検索ワードに"件"が入っている場合．\\
-\item ニュースの検索ワードに数字が入っていて，表示件数をしていする場合．\\
+\item ニュース機能の検索ワードに"件"が入っている場合．\\
+\item ニュース機能の検索ワードに数字が入っていて，表示件数を指定する場合．\\
 \item クイズの回答に30分以上かかる場合．\\
 \end{enumerate}
 

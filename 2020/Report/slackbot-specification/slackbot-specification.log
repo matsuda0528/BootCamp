@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.14159265-p3.8.1-180901-2.6 (utf8.euc) (TeX Live 2019/dev/Debian) (preloaded format=platex 2020.4.14)  21 MAY 2020 05:33
+This is e-pTeX, Version 3.14159265-p3.8.1-180901-2.6 (utf8.euc) (TeX Live 2019/dev/Debian) (preloaded format=platex 2020.4.14)  4 JUN 2020 04:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -119,39 +119,40 @@ LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
 (Font)              scaled to size 13.83836pt on input line 42.
 LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
 (Font)              scaled to size 13.83836pt on input line 42.
-LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 11.53198pt on input line 58.
-LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 11.53198pt on input line 58.
-LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
-(Font)              scaled to size 11.53198pt on input line 58.
-LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 11.53198pt on input line 58.
 LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
 (Font)              scaled to size 9.60999pt on input line 62.
 LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
 (Font)              scaled to size 9.60999pt on input line 62.
  [1
 
-]
+] [2]
 LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 8.64899pt on input line 80.
+(Font)              scaled to size 8.64899pt on input line 133.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 8.64899pt on input line 80.
+(Font)              scaled to size 8.64899pt on input line 133.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 82.
+(Font)              <7> on input line 135.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 82.
+(Font)              <5> on input line 135.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 6.72699pt on input line 82.
+(Font)              scaled to size 6.72699pt on input line 135.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 4.805pt on input line 82.
- [2] [3]
+(Font)              scaled to size 4.805pt on input line 135.
+ [3]
+LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
+(Font)              scaled to size 11.53198pt on input line 163.
+LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
+(Font)              scaled to size 11.53198pt on input line 163.
+LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
+(Font)              scaled to size 11.53198pt on input line 163.
+LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
+(Font)              scaled to size 11.53198pt on input line 163.
+ [4]
 (./slackbot-specification.bbl
 
 LaTeX Warning: Empty `thebibliography' environment on input line 3.
 
-) [4] (./slackbot-specification.aux) ) 
+) [5] (./slackbot-specification.aux) ) 
 Here is how much of TeX's memory you used:
  954 strings out of 494319
  11387 string characters out of 6171545
@@ -159,6 +160,6 @@ Here is how much of TeX's memory you used:
  4880 multiletter control sequences out of 15000+600000
  12804 words of font info for 60 fonts, out of 8000000 for 9000
  269 hyphenation exceptions out of 8191
- 25i,9n,21p,221b,332s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 25i,9n,21p,221b,390s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on slackbot-specification.dvi (4 pages, 7296 bytes).
+Output written on slackbot-specification.dvi (5 pages, 11324 bytes).

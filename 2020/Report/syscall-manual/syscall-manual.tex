@@ -42,6 +42,16 @@
 \section{はじめに}
 \label{sec:introduction}
 本手順書では，Linuxカーネルへシステムコールを追加する手順を記す．
+カーネルへシステムコールを追加するには，Linuxのソースコードを取得してシステムコールのソースコードを追加した後，カーネルの再構築を行う．
+また，本手順書で想定する読者はコンソールの基本的な操作を習得しているものとする．
+以下に本手順書の章立てを示す．
+\begin{description}
+\item[1章] はじめに\\
+\item[2章] 追加環境\\
+\item[3章] 追加したシステムコール\\
+\item[4章] システムコールの追加の手順\\
+\item[5章] テスト\\
+\end{description}
 
 \section{追加環境}
 システムコールを追加する環境を表\ref{env}に示す．
@@ -70,6 +80,57 @@
 	\item[機能] カーネルのメッセージバッファに任意の文字列を出力する
 \end{description}
 \section{システムコールの追加の手順}
+Linuxカーネルの再構築の手順を以下に示す．
+\subsection{環境設定}
+\subsubsection{APTのリポジトリの設定}
+パッケージのダウンロード元設定ファイルであるsources.list編集し，ダウンロード元としてcdromを削除する．
+\begin{verbatim}
+$ su -
+# vi /etc/apt/sources.list
+\end{verbatim}
+
+\subsubsection{sudo権限の付与}
+sudoをインストールし，ユーザにsudo権限を与える．以下のコマンドを実行する．
+\begin{verbatim}
+# apt update
+# apt install sudo 
+# visudo
+\end{verbatim}
+
+\subsubsection{gitとgccのインストール}
+git，gcc，およびmakeをインストールする．以下のコマンドを実行する．
+\begin{verbatim}
+$ sudo apt update
+$ sudo apt install git gcc make
+\end{verbatim}
+
+\subsection{Linuxカーネルの取得}
+\subsubsection{Linuxのソースコードの取得}
+Linuxのソースコードを取得する．LinuxのソースコードはGitで管理されている．
+Gitとは，オープンソースの分散型バージョン管理システムである．
+リポジトリとは，ディレクトリを保存する場所のことであり，クローンとは，リポジトリの内容を任意のディレクトリに複製することである．
+本手順書では，/home/matsuda/git以下でソースコードを管理する．
+/home/matsudaで以下のコマンドを実行する．
+\begin{verbatim}
+$ mkdir git
+$ cd git
+$ git clone git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+\end{verbatim}
+実行後，mkdirコマンドにより/home/matsuda以下にgitディレクトリが作成される．
+そして，cdコマンドにより，gitディレクトリに移動する．
+git cloneコマンドにより，/home/matsuda/git以下にlinux-stableディレクトリが作成される．
+linux-stable以下にLinuxのソースコードが格納されている．
+
+\subsubsection{ブランチの切り替え}
+Linuxのソースコードのバージョンを切り替えるため，ブランチの作成と切り替えを行う．
+ブランチとは，開発の履歴を管理するための分岐である．
+/home/matsuda/git/linux-stableで以下のコマンドを実行する．
+\begin{verbatim}
+$ git checkout -b 4.19 v4.19
+\end{verbatim}
+実行後，v4.19というタグが示すコミットからブランチ4.19が作成され，ブランチ4,19に切り替わる．
+コミットとは，ある時点における開発の状態を記録したものである．
+タグとは，コミットを識別するためにつける印である．
 
 \subsection{カーネルの再構築}
 \subsubsection{.configファイルの生成}
@@ -195,5 +256,5 @@ $ dmesg
 \begin{verbatim}
 研究室で確認
 \end{verbatim}
-この結果より，カーネルバッファに任意の文字列を出力するシステムコールが作成できたとこがわかる．
+この結果より，カーネルバッファに任意の文字列を出力するシステムコールが作成できたことがわかる．
 \end{document}
