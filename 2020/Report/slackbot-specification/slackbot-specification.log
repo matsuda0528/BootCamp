@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.14159265-p3.8.1-180901-2.6 (utf8.euc) (TeX Live 2019/dev/Debian) (preloaded format=platex 2020.4.14)  4 JUN 2020 04:29
+This is e-pTeX, Version 3.14159265-p3.8.1-180901-2.6 (utf8.euc) (TeX Live 2019/dev/Debian) (preloaded format=platex 2020.4.14)  4 JUN 2020 04:37
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -162,4 +162,4 @@ Here is how much of TeX's memory you used:
  269 hyphenation exceptions out of 8191
  25i,9n,21p,221b,390s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on slackbot-specification.dvi (5 pages, 11324 bytes).
+Output written on slackbot-specification.dvi (5 pages, 11680 bytes).
