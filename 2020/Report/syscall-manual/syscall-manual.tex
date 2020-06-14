@@ -51,6 +51,7 @@
 \item[3章] 追加したシステムコール
 \item[4章] システムコールの追加の手順
 \item[5章] テスト
+\item[6章] おわりに
 \end{description}
 
 \section{追加環境}
@@ -83,22 +84,24 @@
 Linuxカーネルの再構築の手順を以下に示す．
 \subsection{環境設定}
 \subsubsection{APTのリポジトリの設定}
-パッケージのダウンロード元設定ファイルであるsources.list編集し，ダウンロード元としてcdromを削除する．
+パッケージのダウンロード元設定ファイルである\verb|sources.list|編集し，ダウンロード元として\verb|cdrom|を削除する．
+\verb|source.list|を編集するために，以下のコマンドを実行する．
 \begin{verbatim}
 $ su -
 # vi /etc/apt/sources.list
 \end{verbatim}
-
+エディタが起動するので，\verb|cdrom|から始まる行を削除またはコメントアウトする．
 \subsubsection{sudo権限の付与}
-sudoをインストールし，ユーザにsudo権限を与える．以下のコマンドを実行する．
+\verb|sudo|をインストールし，ユーザにsudo権限を与える．以下のコマンドを実行する．
 \begin{verbatim}
+$ su -
 # apt update
 # apt install sudo 
 # visudo
 \end{verbatim}
-
+このコマンドを実行すると，エディタが起動するので，\verb|root ALL=(ALL:ALL) ALL|の直後に\verb|user ALL=(ALL:ALL) ALL|を追加する．
 \subsubsection{gitとgccのインストール}
-git，gcc，およびmakeをインストールする．以下のコマンドを実行する．
+\verb|git|，\verb|gcc|，および\verb|make|をインストールする．以下のコマンドを実行する．
 \begin{verbatim}
 $ sudo apt update
 $ sudo apt install git gcc make
@@ -109,49 +112,50 @@ $ sudo apt install git gcc make
 Linuxのソースコードを取得する．LinuxのソースコードはGitで管理されている．
 Gitとは，オープンソースの分散型バージョン管理システムである．
 リポジトリとは，ディレクトリを保存する場所のことであり，クローンとは，リポジトリの内容を任意のディレクトリに複製することである．
-本手順書では，/home/matsuda/git以下でソースコードを管理する．
-/home/matsudaで以下のコマンドを実行する．
+本手順書では，\verb|/home/matsuda/git|以下でソースコードを管理する．
+\verb|/home/matsuda|で以下のコマンドを実行する．
 \begin{verbatim}
 $ mkdir git
 $ cd git
 $ git clone git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
 \end{verbatim}
-実行後，mkdirコマンドにより/home/matsuda以下にgitディレクトリが作成される．
-そして，cdコマンドにより，gitディレクトリに移動する．
-git cloneコマンドにより，/home/matsuda/git以下にlinux-stableディレクトリが作成される．
-linux-stable以下にLinuxのソースコードが格納されている．
+実行後，\verb|mkdir|コマンドにより\verb|/home/matsuda|以下に\verb|git|ディレクトリが作成される．
+そして，\verb|cd|コマンドにより，\verb|git|ディレクトリに移動する．
+\verb|git clone|コマンドにより，\verb|/home/matsuda/git|以下に\verb|linux-stable|ディレクトリが作成される．
+\verb|linux-stable|以下にLinuxのソースコードが格納されている．
 
 \subsubsection{ブランチの切り替え}
 Linuxのソースコードのバージョンを切り替えるため，ブランチの作成と切り替えを行う．
 ブランチとは，開発の履歴を管理するための分岐である．
-/home/matsuda/git/linux-stableで以下のコマンドを実行する．
+\verb|/home/matsuda/git/linux-stable|で以下のコマンドを実行する．
 \begin{verbatim}
 $ git checkout -b 4.19 v4.19
 \end{verbatim}
-実行後，v4.19というタグが示すコミットからブランチ4.19が作成され，ブランチ4,19に切り替わる．
+実行後，\verb|v4.19|というタグが示すコミットからブランチ4.19が作成され，ブランチ4.19に切り替わる．
 コミットとは，ある時点における開発の状態を記録したものである．
 タグとは，コミットを識別するためにつける印である．
 
 \subsection{カーネルの再構築}
+以下の手順でカーネルの再構築を行う．コマンドは\verb|/home/matsuda/git/linux-stable|以下で実行する．
 \subsubsection{.configファイルの生成}
-.configファイルを以下のコマンドで生成する．
+\verb|.config|ファイルを以下のコマンドで生成する．
 \begin{verbatim}
 make defconfig
 \end{verbatim}
-.configファイルとは，カーネルの設定を記述したコンフィギュレーションファイルである．
-実行後，/home/user/git/linux-stable以下に.configファイルが生成される．
+\verb|.config|ファイルとは，カーネルの設定を記述したコンフィギュレーションファイルである．
+実行後，\verb|/home/matsuda/git/linux-stable|以下に\verb|.config|ファイルが生成される．
 
 \subsubsection{カーネルのコンパイル}
 Linuxカーネルを以下のコマンドでコンパイルする．
 \begin{verbatim}
 make bzImage -j8
 \end{verbatim}
-上記コマンドの$-j$オプションは，同時に実行できるジョブ数を指定する．
+上記コマンドの\verb|-j|オプションは，同時に実行できるジョブ数を指定する．
 ジョブ数を不用意に増やすと，メモリ不足により実行速度が低下する場合がある．
 ジョブ数はCPUのコア数*2が効果的である．
-コマンド実行後，/home/matsuda-ri/git/linux-stable/arch/x86/boot以下にbzImageという名前の圧縮カーネルイメージが作成される．
+コマンド実行後，\verb|/home/matsuda/git/linux-stable/arch/x86/boot|以下に\verb|bzImage|という名前の圧縮カーネルイメージが作成される．
 カーネルイメージとは，実行可能形式のカーネルを含むファイルである．
-同時に，/home/matsuda-ri/git/linux-stable以下にすべてのカーネルシンボルのアドレスを記述したSystem.mapが作成される．
+同時に，\verb|/home/matsuda/git/linux-stable|以下にすべてのカーネルシンボルのアドレスを記述した\verb|System.map|が作成される．
 カーネルシンボルとは，カーネルのプログラムが格納されたメモリアドレスと対応付けられた文字列のことである．
 
 \subsubsection{カーネルのインストール}
@@ -160,7 +164,7 @@ make bzImage -j8
 $ sudo cp arch/x86/boot/bzImage /boot/vmlinuz-4.19.0-linux
 $ sudo cp System.map /boot/System.map-4.19.0-linux
 \end{verbatim}
-実行後，bzImageとSystem.mapが，/boot以下にそれぞれvmlinuz-3.16.0-linuxとSystem.map-3.16.0-linuxという名前でコピーされる．
+実行後，\verb|bzImage|と\verb|System.map|が，\verb|/boot|以下にそれぞれ\verb|vmlinuz-4.19.0-linux|と\verb|System.map-4.19.0-linux|という名前でコピーされる．
 
 \subsubsection{カーネルモジュールのコンパイル}
 カーネルモジュールを以下のコマンドでコンパイルする．
@@ -190,16 +194,16 @@ $ sudo update-initramfs -c -k 4.19.0
 
 \subsubsection{ブートローダの設定}
 システムコールを実装したカーネルをブートローダから起動可能にするために，ブートローダを設定する．
-ブートローダの設定ファイルは/boot/grub/grub.cfgである．
+ブートローダの設定ファイルは\verb|/boot/grub/grub.cfg|である．
 エントリを追加するためには，このファイルを編集する必要がある．
 Debian10で使用されているブートローダはGRUB2である．
 GRUB2でカーネルのエントリを追加する際，設定ファイルを直接編集しない．
-/etc/grub.d以下にエントリ追加用のスクリプトを作成し，そのスクリプトを実行することでエントリを追加する．
+\verb|/etc/grub.d|以下にエントリ追加用のスクリプトを作成し，そのスクリプトを実行することでエントリを追加する．
 ブートローダを設定する手順を以下に示す．
 \begin{enumerate}
 \item エントリ追加用のスクリプトの作成\\
 	カーネルのエントリを追加するため，エントリ追加用のスクリプトを作成する．
-	本手順では，既存のファイル名に倣い作成するスクリプトのファイル名は11\_linux-4.19.0とする．スクリプトの記述例を以下に示す．
+	本手順では，既存のファイル名に倣い作成するスクリプトのファイル名は\verb|11_linux-4.19.0|とする．スクリプトの記述例を以下に示す．
 	\begin{verbatim}
 	1 #!/bin/sh -e
 	2 echo "Adding my custom Linux to GRUB2"
@@ -213,7 +217,7 @@ GRUB2でカーネルのエントリを追加する際，設定ファイルを直
 	\end{verbatim}
 
 \item 実行権限の付与\\
-	/etc/grub.dで以下のコマンドを実行し，作成したスクリプトに実行権限を付与する．
+	\verb|/etc/grub.d|で以下のコマンドを実行し，作成したスクリプトに実行権限を付与する．
 	\begin{verbatim}
 	$ sudo chmod +x 11_linux-4.19.0
 	\end{verbatim}
@@ -223,7 +227,7 @@ GRUB2でカーネルのエントリを追加する際，設定ファイルを直
 	\begin{verbatim}
 	$ sudo update-grub
 	\end{verbatim}
-	実行後，/boot/grub/grub.cfgにシステムコールを実装したカーネルのエントリが追加される．
+	実行後，\verb|/boot/grub/grub.cfg|にシステムコールを実装したカーネルのエントリが追加される．
 
 \end{enumerate}
 \subsubsection{再起動}
@@ -235,7 +239,9 @@ GRUB2のカーネル選択画面にエントリが追加されている．カー
 
 \section{テスト}
 \subsection{概要}
-本手順書で追加したシステムコールが正常に動作しているかを確認するためにテストを行う．
+本手順書で追加したシステムコールが正常に動作しているかを確認するためにテストを行う
+．
+テストは，追加したシステムコールを使って任意の文字列をカーネルバッファに出力し，\verb|dmesg|コマンドでカーネルバッファを確認する方法で行う．
 
 \subsection{テストプログラムの作成}
 追加したシステムコールを呼び出すテストプログラムを作成する．
@@ -245,8 +251,10 @@ GRUB2のカーネル選択画面にエントリが追加されている．カー
 \item 受け取った文字列を引数として，追加したシステムコールを呼び出す 
 \end{enumerate}
 \subsection{テストプログラムの実行}
-テストプログラムをコンパイルし実行する．
-
+テストプログラムを以下の方法でコンパイルし実行する．
+\begin{verbatim}
+研修室で確認
+\end{verbatim}
 \subsection{カーネルバッファの内容を確認}
 以下のコマンドでカーネルのメッセージバッファを確認する．
 \begin{verbatim}
@@ -257,4 +265,6 @@ $ dmesg
 研究室で確認
 \end{verbatim}
 この結果より，カーネルバッファに任意の文字列を出力するシステムコールが作成できたことがわかる．
+\section{おわりに}
+本手順書では，Linuxカーネルへシステムコールを追加する手順を示した．
 \end{document}

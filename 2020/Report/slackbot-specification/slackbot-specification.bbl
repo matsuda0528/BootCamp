@@ -1,3 +1,17 @@
-\begin{thebibliography}{}
+\begin{thebibliography}{1}
+
+\bibitem{Slack}
+Slack:
+  その仕事^^ef^^bd^^a4Slackで^^ef^^bd^^a1，Slack.Inc（オンライン），\urlj{https://slack.com/intl/ja-jp/}
+  \refdatej{2020-05-20}.
+
+\bibitem{WeatherHacks}
+Hacks, W.: お天気Webサービス仕様 - Weather Hacks - livedoor
+  天気情報，日本気象協会（オンライン），\urlj{http://weather.livedoor.com/weather_hacks/webservice}
+  \refdatej{2020-05-20}.
+
+\bibitem{NewsAPI}
+API, N.: News API - A JSON API for live news and blog articles, News API
+  (online), \urle{https://newsapi.org/} \refdatee{2020-05-20}.
 
 \end{thebibliography}
